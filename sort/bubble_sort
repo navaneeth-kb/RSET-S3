@@ -1,4 +1,3 @@
-#include<stdio.h>
 int a[50],max=0;
 void bubble_sort()
 {
