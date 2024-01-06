@@ -7,7 +7,7 @@ void enqueue(int value)
     {
         printf("full");
     }
-    else if(front==-1)
+    else if(rear==-1)
     {
         front=0;
         rear=0;
@@ -33,8 +33,8 @@ void dequeue()
     }
     else
     {
-        printf("Deleted element is %d",a[rear]);
-        rear--;
+        printf("Deleted element is %d",a[front]);
+        front++;
     }
 }
 void display()
