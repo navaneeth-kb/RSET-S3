@@ -1,3 +1,4 @@
+#include <stdio.h>   
 int max=0,a[50],b[50];
 void merge_sort(int low,int high)
 {
