@@ -22,6 +22,7 @@ void insert_front(int value)
         temp->data=value;
         temp->rlink=head;
         temp->llink=NULL;
+        head->rlink=temp;
         head=temp;
     }
 }
@@ -130,7 +131,7 @@ void delete_node(int key)
     {
         printf("Empty");
     }
-    else if(head->rlink==key)
+    else if(head->data==key)
     {
         temp=head;
         head=head->rlink;
@@ -169,18 +170,26 @@ void display_front()
 }
 void display_rear()
 {
-    ptr = head;
-    while (ptr->rlink != NULL)
+    if (head == NULL)
     {
-        ptr = ptr->rlink; 
+        printf("Empty");
+        return;
     }
+    else
+    {
+        ptr= head;
+        while (ptr->rlink != NULL)
+        {
+            ptr = ptr->rlink;
+        }
 
-    while (ptr != NULL)
-    {
-        printf("%d\t", ptr->data);
-        ptr = ptr->llink; 
+        while (ptr != NULL)
+        {
+            printf("%d\t", ptr->data);
+            ptr = ptr->llink;
+        }
+        printf("%d", ptr->data);
     }
-    printf("%d\t", ptr->data);
 }
 void main()
 {
