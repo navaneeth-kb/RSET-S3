@@ -180,6 +180,7 @@ void display_rear()
         printf("%d\t", ptr->data);
         ptr = ptr->llink; 
     }
+    printf("%d\t", ptr->data);
 }
 void main()
 {
