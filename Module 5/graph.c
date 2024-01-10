@@ -1,49 +1,54 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-struct node {  //ajd list
+struct node
+{
     char data;
-    struct node* link;
+    struct node *link;
 };
-
-struct store{  //visited status and value
+struct store
+{
     char ele;
     int vis;
-}p[30];
+};
 
-struct node *arr[30];  //ajd list
-int a[30][30]={0};  //ajd matrix
-int n;
-char q[30];  //BFS
-char stack[30];  //DFS
+struct store *p[30];
+struct node *arr[30];    // Adjacency list
+int a[20][20]={0};   //Adjacency matrix 
+int n;  //Max  value
+char q[30];     //BFS Traversal
+char stk[30];   //DFS Traversal
 
-struct node* createNode(char data) {
-    struct node* newNode = (struct node*)malloc(sizeof(struct node));
-    newNode->data = data;
-    newNode->link = NULL;
-    return newNode;
+struct node *createNode(char c)
+{
+    struct node *temp=(struct node *)malloc(sizeof(struct node));
+    temp->data=c;
+    temp->link=NULL;
+    return temp;
 }
 
-void adjacencyMatrix(){
-    int i,j;
-    printf("\nAdjacency Matrix:\n");
-    for(i=0;i<n;i++) {
-        for(j=0;j<n;j++) {
-            printf("%d ",a[i][j]);
+void adjacencyMatrix()
+{
+    for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<n;j++)
+        {
+            printf("%d\t",a[i][j]);
         }
         printf("\n");
     }
 }
 
-void adjacencyList(){
-    int i,j,z;
+void adjacencyList()
+{
     struct node *ptr;
-    printf("\ndisplaying Adjacency List\n");
-    for(i=0;i<n;i++){
+    for(int i=0;i<n;i++)
+    {
         ptr=arr[i];
-        printf("%d. ",i);
-        while(ptr!=NULL){
-            printf("%c ",ptr->data);
+        printf("%d.",i);
+        while(ptr!=NULL)
+        {
+            printf("%c\t",ptr->data);
             ptr=ptr->link;
         }
         printf("\n");
@@ -51,43 +56,52 @@ void adjacencyList(){
 }
 
 int front=0,rear=-1;
-char dequeue(){
-    char x=q[front];
-    front++;
-    return x;
-}
-void enqueue(char c){
+void enqueue(char val)
+{
     rear++;
-    q[rear]=c;
+    q[rear]=val;
 }
-
-void BFS(){
+char dequeue()
+{
+    char y=q[front];
+    front++;
+    return y;
+}
+void BFS()
+{
     char s;
     int i,j;
     struct node *ptr;
-    printf("enter the source: ");
+    printf("Enter source:");
     scanf(" %c",&s);
-    for(i=0;i<n;i++){
-        if(p[i].ele==s){
+    for(i=0;i<n;i++)
+    {
+        if (p[i]->ele==s)
+        {
             enqueue(s);
-            p[i].vis=1;
+            p[i]->vis=1;
         }
     }
-    printf("BFS traversal: ");
     int count=1;
-    while(count!=0){
+    while(count!=0)
+    {
         char x=dequeue();
-        printf("%c ",x);
+        printf("%c",x);
         count--;
-        for(i=0;i<n;i++){
-            if(arr[i]->data==x){
+        for(i=0;i<n;i++)
+        {
+            if(arr[i]->data==x)
+            {
                 ptr=arr[i]->link;
-                while(ptr!=NULL){
-                    for(j=0;j<n;j++){
-                        if(p[j].ele==ptr->data && p[j].vis==0){
+                while(ptr!=NULL)
+                {
+                    for(j=0;j<n;j++)
+                    {
+                        if(ptr->data==p[j]->ele && p[j]->vis==0)
+                        {
                             enqueue(ptr->data);
                             count++;
-                            p[j].vis=1;
+                            p[j]->vis=1;
                         }
                     }
                     ptr=ptr->link;
@@ -97,45 +111,53 @@ void BFS(){
     }
 }
 
-
 int top=0;
-char pop(){
-    char x=stack[top-1];
-    top--;
-    return x;
-}
-void push(char c){
-    stack[top]=c;
+void push(char val)
+{
+    stk[top]=val;
     top++;
 }
-
-void DFS(){
+char pop()
+{
+    char y=stk[top-1];
+    top--;
+    return y;
+}
+void DFS()
+{
     char s;
     int i,j;
     struct node *ptr;
-    printf("enter the source: ");
+    printf("Enter source:");
     scanf(" %c",&s);
-    for(i=0;i<n;i++){
-        if(p[i].ele==s){
+    for(i=0;i<n;i++)
+    {
+        if (p[i]->ele==s)
+        {
             push(s);
-            p[i].vis=1;
+            p[i]->vis=1;
         }
     }
-    printf("DFS traversal: ");
     int count=1;
-    while(count!=0){
+    while(count!=0)
+    {
         char x=pop();
         printf("%c ",x);
         count--;
-        for(i=0;i<n;i++){
-            if(arr[i]->data==x){
+        for(i=0;i<n;i++)
+        {
+            if(arr[i]->data==x)
+            {
                 ptr=arr[i]->link;
-                while(ptr!=NULL){
-                    for(j=0;j<n;j++){
-                        if(p[j].ele==ptr->data && p[j].vis==0){
+                while(ptr!=NULL)
+                {
+                    for(j=0;j<n;j++)
+                    {
+                        if(ptr->data==p[j]->ele && p[j]->vis==0)
+                        {
                             push(ptr->data);
                             count++;
-                            p[j].vis=1;
+                            p[j]->vis=1;
                         }
                     }
                     ptr=ptr->link;
@@ -145,39 +167,45 @@ void DFS(){
     }
 }
 
+void main()
+{
 
-void main(){
-    printf("enter the no of vertices:  ");
+    printf("Enter no of vertices:");
     scanf("%d",&n);
-    printf("enter the vertices:  ");
-    for(int i=0;i<n;i++){
-        scanf(" %c",&p[i].ele);
-        getchar();
-        p[i].vis=0;
+    printf("enter vertices values:");
+    for(int i=0;i<n;i++)
+    {
+        p[i]=(struct store*)malloc(sizeof(struct store));
+        scanf(" %c",&p[i]->ele);
+        p[i]->vis=0;
     }
 
-    int i,j,z;
+    int z;
     struct node *ptr;
-    for(i=0;i<n;i++){
-        arr[i]=createNode(p[i].ele);
+    for(int i=0;i<n;i++)
+    {
+        arr[i]=createNode(p[i]->ele);
         ptr=arr[i];
-        for(j=0;j<n;j++){
-            printf("if %c is directed to %c enter 1 else 0  ",p[i].ele,p[j].ele);
+        for(int j=0;j<n;j++)
+        {
+            printf("%c => %c if there is a link input 1, else 0:",p[i]->ele,p[j]->ele);
             scanf("%d",&z);
-            if(z==1){
-                ptr->link=createNode(p[j].ele);
+            if(z==1)
+            {
+                ptr->link=createNode(p[j]->ele);
                 ptr=ptr->link;
                 a[i][j]=1;
             }
         }
     }
-
-    while(1){
+    while (1)
+    {
         int ch;
-        printf("1.Adjacency Matrix Representation 2.Adjacency List Representation 3.BFS traversal 4.DFS traversal 5.Exit\n");
-        printf("enter your choice:  ");
-        scanf("%d",&ch);
-        switch(ch){
+        printf("1. Adjacency Matrix Representation\n2. Adjacency List Representation\n3. BFS traversal\n4. DFS traversal\n5. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &ch);
+        switch (ch)
+        {
             case 1:
                 adjacencyMatrix();
                 break;
@@ -186,19 +214,21 @@ void main(){
                 break;
             case 3:
                 BFS();
-                for(int i=0;i<n;i++){
-                    p[i].vis=0;
+                for (int i = 0; i < n; i++) {
+                    p[i]->vis = 0;
                 }
                 printf("\n");
                 break;
             case 4:
                 DFS();
-                for(int i=0;i<n;i++){
-                    p[i].vis=0;
+                for (int i = 0; i < n; i++) {
+                    p[i]->vis = 0;
                 }
                 printf("\n");
                 break;
-            default:exit(0);
+            default:
+                exit(0);
         }
     }
 }
+
