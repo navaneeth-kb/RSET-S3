@@ -22,7 +22,7 @@ void insert_front(int value)
         temp->data=value;
         temp->rlink=head;
         temp->llink=NULL;
-        head->rlink=temp;
+        head->llink=temp;
         head=temp;
     }
 }
