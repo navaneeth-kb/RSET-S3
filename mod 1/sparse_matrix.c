@@ -140,42 +140,20 @@ void transpose(int a[20][20])
 	t[0][2]=a[0][2];
 	for(i=1;i<=a[0][2];i++)
 	{
-	 t[i][0]=a[i][1];
-	 t[i][1]=a[i][0];
-	 t[i][2]=a[i][2];
-    }
-    for(i=0;i<=t[0][2];i++)
-    {
-		for(j=0;j<3;j++)
-		{
-			printf("%d\t",t[i][j]);
-	    }
-        printf("\n");
-    }
-}
-/*void transpose(int m[20][20])
-{
-    int tran[20][20],k=1;
-    tran[0][0]=m[0][0];
-    tran[0][1]=m[0][1];
-    tran[0][2]=m[0][2];
-    int b=m[0][1];
-    int n=m[0][2];
-    for(int i=0;i<b;i++)
-    {
-        for(int j=1;j<n;j++)
+		 t[i][0]=a[i][1];
+		 t[i][1]=a[i][0];
+		 t[i][2]=a[i][2];
+    	}
+        for(i=0;i<=t[0][2];i++)
         {
-            if (m[i][j]==i)
-            {
-                tran[k][0]=m[j][1];
-                tran[k][1]=m[j][0];
-                tran[k][2]=m[j][2];
-                k++;
-            }
+	         for(j=0;j<3;j++)
+	         {
+		        printf("%d\t",t[i][j]);
+	         }
+                 printf("\n");
         }
-    }
-    display(tran,k);
-}*/
+}
+
 void main()
 {
 	int ch,m1[20][20],m2[20][20],r1,r2,c1,c2,s1[20][20],s2[20][20],sum[20][20];
