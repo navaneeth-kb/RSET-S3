@@ -4,71 +4,92 @@
 int arr[100] = {-1};
 int count = 0;
 
-void inorder(int i) {
-    if (i <= count) {
+void inorder(int i) 
+{
+    if (i <= count) 
+    {
         inorder(2 * i);
         printf("%d ", arr[i]);
         inorder(2 * i + 1);
     }
 }
 
-void preorder(int i) {
-    if (i <= count) {
+void preorder(int i) 
+{
+    if (i <= count) 
+    {
         printf("%d ", arr[i]);
         preorder(2 * i);
         preorder(2 * i + 1);
     }
 }
 
-void postorder(int i) {
-    if (i <= count) {
+void postorder(int i) 
+{
+    if (i <= count) 
+    {
         postorder(2 * i);
         postorder(2 * i + 1);
         printf("%d ", arr[i]);
     }
 }
 
-void insert(int value) {
+void insert(int value) 
+{
     count++;
     arr[count] = value;
 }
 
-void delete(int value) {
+void delete(int value) 
+{
     int i;
-    while (arr[i] != value && i <= count) {
+    while (arr[i] != value && i <= count) 
+    {
         i++;
     }
-    if (i <= count) {
+    if (i <= count) 
+    {
         arr[i] = arr[count];
         arr[count] = -1;
         count--;
-    } else {
+    } 
+    else 
+    {
         printf("Value not found in the tree.\n");
     }
 }
 
-int search(int value, int i) {
-    if (i <= count) {
-        if (arr[i] == value) {
+int search(int value, int i) 
+{
+    if (i <= count) 
+    {
+        if (arr[i] == value) 
+        {
             return 1; // Value found
-        } else if (value < arr[i]) {
+        } 
+        else if (value < arr[i]) 
+        {
             return search(value, 2 * i); // Search in left subtree
-        } else {
+        } 
+        else 
+        {
             return search(value, 2 * i + 1); // Search in right subtree
         }
     }
     return 0; // Value not found
 }
 
-void main() {
+void main() 
+{
     int ch, val;
-
-    while (1) {
+    while (1) 
+    {
         printf("\n1-INSERT \n2-DELETE \n3-INORDER TRAVERSAL \n4-PREORDER TRAVERSAL \n5-POSTORDER TRAVERSAL\n6-SEARCH\n7-EXIT\n");
         printf("Enter choice:");
         scanf("%d", &ch);
 
-        switch (ch) {
+        switch (ch) 
+        {
             case 1:
                 printf("Enter value:");
                 scanf("%d", &val);
