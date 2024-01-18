@@ -47,11 +47,11 @@ struct node *search_node(struct node *root,int value)
     }
     else if(value>root->data)
     {
-        return(root->right,value);
+        return search_node(root->right,value);
     }
     else if(value<root->data)
     {
-        return(root->left,value);
+        return search_node(root->left,value);
     }
 }
 struct node *delete_node(struct node *root,int key)
