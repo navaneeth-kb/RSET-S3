@@ -1,233 +1,162 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-struct node
-{
-    char data;
-    struct node *link;
-};
-struct store
-{
-    char ele;
-    int vis;
-};
+#define SIZE 10
+#define EMPTY -1
 
-struct store *p[30];
-struct node *arr[30];    // Adjacency list
-int a[20][20]={0};   //Adjacency matrix 
-int n;  //Max  value
-char q[30];     //BFS Traversal
-char stk[30];   //DFS Traversal
+int linearProbingTable[SIZE];
+int quadraticProbingTable[SIZE];
 
-struct node *createNode(char c)
+int hash(int value)
 {
-    struct node *temp=(struct node *)malloc(sizeof(struct node));
-    temp->data=c;
-    temp->link=NULL;
-    return temp;
+    return value % SIZE;
 }
 
-void adjacencyMatrix()
+void insertLinearProbing(int value)
 {
-    for(int i=0;i<n;i++)
+    int index = hash(value);
+
+    while (linearProbingTable[index] != EMPTY)
     {
-        for(int j=0;j<n;j++)
-        {
-            printf("%d\t",a[i][j]);
-        }
-        printf("\n");
+        index = (index + 1) % SIZE;
     }
+
+    linearProbingTable[index] = value;
 }
 
-void adjacencyList()
+void insertQuadraticProbing(int value)
 {
-    struct node *ptr;
-    for(int i=0;i<n;i++)
+    int index = hash(value);
+    int index2 = index;
+    int i = 1;
+
+    while (quadraticProbingTable[index] != EMPTY)
     {
-        ptr=arr[i];
-        printf("%d.",i);
-        while(ptr!=NULL)
-        {
-            printf("%c\t",ptr->data);
-            ptr=ptr->link;
-        }
-        printf("\n");
+        index = (index2 + i * i) % SIZE;
+        i++;
     }
+
+    quadraticProbingTable[index] = value;
 }
 
-int front=0,rear=-1;
-void enqueue(char val)
+int searchLinearProbing(int value)
 {
-    rear++;
-    q[rear]=val;
-}
-char dequeue()
-{
-    char y=q[front];
-    front++;
-    return y;
-}
-void BFS()
-{
-    char s;
-    int i,j;
-    struct node *ptr;
-    printf("Enter source:");
-    scanf(" %c",&s);
-    for(i=0;i<n;i++)
+    int index = hash(value);
+    int initialIndex = index;
+
+    while (linearProbingTable[index] != EMPTY)
     {
-        if (p[i]->ele==s)
+        if (linearProbingTable[index] == value)
         {
-            enqueue(s);
-            p[i]->vis=1;
+            return index;
+        }
+        index = (index + 1) % SIZE;
+
+        // If we have checked all the slots
+        if (index == initialIndex)
+        {
+            break;
         }
     }
-    int count=1;
-    while(count!=0)
-    {
-        char x=dequeue();
-        printf("%c",x);
-        count--;
-        for(i=0;i<n;i++)
-        {
-            if(arr[i]->data==x)
-            {
-                ptr=arr[i]->link;
-                while(ptr!=NULL)
-                {
-                    for(j=0;j<n;j++)
-                    {
-                        if(ptr->data==p[j]->ele && p[j]->vis==0)
-                        {
-                            enqueue(ptr->data);
-                            count++;
-                            p[j]->vis=1;
-                        }
-                    }
-                    ptr=ptr->link;
-                }
-            }
-        }
-    }
+
+    return -1; // Not found
 }
 
-int top=0;
-void push(char val)
+int searchQuadraticProbing(int value)
 {
-    stk[top]=val;
-    top++;
-}
-char pop()
-{
-    char y=stk[top-1];
-    top--;
-    return y;
-}
-void DFS()
-{
-    char s;
-    int i,j;
-    struct node *ptr;
-    printf("Enter source:");
-    scanf(" %c",&s);
-    for(i=0;i<n;i++)
+    int index = hash(value);
+    int initialIndex = index;
+    int i = 1;
+
+    while (quadraticProbingTable[index] != EMPTY)
     {
-        if (p[i]->ele==s)
+        if (quadraticProbingTable[index] == value)
         {
-            push(s);
-            p[i]->vis=1;
+            return index;
+        }
+        index = (initialIndex + i * i) % SIZE;
+        i++;
+
+        // If we have checked all the slots
+        if (index == initialIndex)
+        {
+            break;
         }
     }
-    int count=1;
-    while(count!=0)
+
+    return -1; // Not found
+}
+
+void display(int table[])
+{
+    for (int i = 0; i < SIZE; i++)
     {
-        char x=pop();
-        printf("%c ",x);
-        count--;
-        for(i=0;i<n;i++)
+        if (table[i] != EMPTY)
         {
-            if(arr[i]->data==x)
-            {
-                ptr=arr[i]->link;
-                while(ptr!=NULL)
-                {
-                    for(j=0;j<n;j++)
-                    {
-                        if(ptr->data==p[j]->ele && p[j]->vis==0)
-                        {
-                            push(ptr->data);
-                            count++;
-                            p[j]->vis=1;
-                        }
-                    }
-                    ptr=ptr->link;
-                }
-            }
+            printf("%d\t", table[i]);
+        }
+        else
+        {
+            printf("empty\t");
         }
     }
+    printf("\n");
 }
 
 void main()
 {
-
-    printf("Enter no of vertices:");
-    scanf("%d",&n);
-    printf("enter vertices values:");
-    for(int i=0;i<n;i++)
+    int ch, value;
+    for (int i = 0; i < SIZE; i++)
     {
-        p[i]=(struct store*)malloc(sizeof(struct store));
-        scanf(" %c",&p[i]->ele);
-        p[i]->vis=0;
-    }
-
-    int z;
-    struct node *ptr;
-    for(int i=0;i<n;i++)
-    {
-        arr[i]=createNode(p[i]->ele);
-        ptr=arr[i];
-        for(int j=0;j<n;j++)
-        {
-            printf("%c => %c if there is a link input 1, else 0:",p[i]->ele,p[j]->ele);
-            scanf("%d",&z);
-            if(z==1)
-            {
-                ptr->link=createNode(p[j]->ele);
-                ptr=ptr->link;
-                a[i][j]=1;
-            }
-        }
+        linearProbingTable[i] = EMPTY;
+        quadraticProbingTable[i] = EMPTY;
     }
     while (1)
     {
-        int ch;
-        printf("1. Adjacency Matrix Representation\n2. Adjacency List Representation\n3. BFS traversal\n4. DFS traversal\n5. Exit\n");
-        printf("Enter your choice: ");
+        printf("\n1-INSERT LINEAR PROBING \n2-INSERT QUADRATIC PROBING \n3-DISPLAY LINEAR PROBING \n4-DISPLAY QUADRATIC PROBING\n5-SEARCH LINEAR PROBING\n6-SEARCH QUADRATIC PROBING\n");
+        printf("Enter your choice:");
         scanf("%d", &ch);
         switch (ch)
         {
-            case 1:
-                adjacencyMatrix();
-                break;
-            case 2:
-                adjacencyList();
-                break;
-            case 3:
-                BFS();
-                for (int i = 0; i < n; i++) {
-                    p[i]->vis = 0;
-                }
-                printf("\n");
-                break;
-            case 4:
-                DFS();
-                for (int i = 0; i < n; i++) {
-                    p[i]->vis = 0;
-                }
-                printf("\n");
-                break;
-            default:
-                exit(0);
+        case 1:
+            printf("Enter value to insert (Linear Probing): ");
+            scanf("%d", &value);
+            insertLinearProbing(value);
+            break;
+        case 2:
+            printf("Enter value to insert (Quadratic Probing): ");
+            scanf("%d", &value);
+            insertQuadraticProbing(value);
+            break;
+        case 3:
+            printf("Linear Probing Table:\n");
+            display(linearProbingTable);
+            break;
+        case 4:
+            printf("Quadratic Probing Table:\n");
+            display(quadraticProbingTable);
+            break;
+        case 5:
+            printf("Enter value to search (Linear Probing): ");
+            scanf("%d", &value);
+            int resultLinear = searchLinearProbing(value);
+            if (resultLinear != -1)
+                printf("Value found at index %d\n", resultLinear);
+            else
+                printf("Value not found\n");
+            break;
+        case 6:
+            printf("Enter value to search (Quadratic Probing): ");
+            scanf("%d", &value);
+            int resultQuadratic = searchQuadraticProbing(value);
+            if (resultQuadratic != -1)
+                printf("Value found at index %d\n", resultQuadratic);
+            else
+                printf("Value not found\n");
+            break;
+        default:
+            printf("Invalid choice\n");
+            break;
         }
     }
 }
