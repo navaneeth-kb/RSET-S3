@@ -159,6 +159,42 @@ void delete_node(int key)
         }
     }
 }
+// another delete_node method
+/*void deleten(int key)
+{
+    if (head==NULL)
+    {
+        printf("empty");
+    }
+    else if(head->data==key)
+    {
+        temp=head;
+        head=head->rlink;;
+        free(temp);
+    }
+    else
+    {
+        ptr=head;
+        while(ptr->rlink->data!=key && ptr->rlink->rlink!=NULL)
+        {
+            ptr=ptr->rlink;
+        }
+        if (ptr->rlink->data!=key)
+        {
+            printf("node not found");
+        }
+        else
+        {
+            temp=ptr->rlink;
+            ptr->rlink=ptr->rlink->rlink;
+            if(ptr->rlink!=NULL)
+            {
+                ptr->rlink->llink=ptr;
+            }
+            free(temp);
+        }
+    }
+}*/
 void display_front()
 {
     ptr=head;
