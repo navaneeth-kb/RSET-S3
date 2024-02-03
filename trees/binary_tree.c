@@ -59,24 +59,23 @@ void delete(int value)
     }
 }
 
-int search(int value, int i) 
+//Linear search
+void search(int val)
 {
-    if (i <= count) 
+    int flag=0;
+    for(int i=0;i<count;i++)
     {
-        if (arr[i] == value) 
+        if(a[i]==val)
         {
-            return 1; // Value found
-        } 
-        else if (value < arr[i]) 
-        {
-            return search(value, 2 * i); // Search in left subtree
-        } 
-        else 
-        {
-            return search(value, 2 * i + 1); // Search in right subtree
+            flag=1;
+            printf("Found");
+            break;
         }
     }
-    return 0; // Value not found
+    if(flag==0)
+    {
+        printf("Not found");
+    }
 }
 
 void main() 
@@ -112,11 +111,7 @@ void main()
             case 6:
                 printf("Enter value to search:");
                 scanf("%d", &val);
-                if (search(val, 1)) {
-                    printf("Value found in the tree.\n");
-                } else {
-                    printf("Value not found in the tree.\n");
-                }
+                search(val);
                 break;
             case 7:
                 exit(0);
