@@ -120,6 +120,82 @@ void postorder(struct node *root)
         printf("%d ", root->data);
     }
 }
+//Non-recursive
+/*
+void preorder(struct node *root)
+{
+    if (root==NULL)
+    {
+        return;
+    }
+    struct node *stk[100];
+    int top=-1;
+    while(root!=NULL || top>=0)
+    {
+        while(root!=NULL)
+        {
+            printf("%d",root->data);
+            stk[++top]=root;
+            root=root->left;
+        }
+        root=stk[top--]->right;
+
+    }
+}
+void inorder(struct node *root)
+{
+    if (root==NULL)
+    {
+        return;
+    }
+    struct node *stk[100];
+    int top=-1;
+    while(root!=NULL || top>=0)
+    {
+        while(root!=NULL)
+        {
+
+            stk[++top]=root;
+            root=root->left;
+        }
+        root=stk[top--];
+        printf("%d",root->data);
+        root=root->right;
+
+    }
+}
+void postorder(struct node *root)
+{
+    if (root==NULL)
+    {
+        return;
+    }
+    struct node *stk[100];
+    int top=-1;
+    struct node *prev=NULL;
+    while(root!=NULL || top>=0)
+    {
+        while(root!=NULL)
+        {
+
+            stk[++top]=root;
+            root=root->left;
+        }
+        root=stk[top--];
+        if(root->right==NULL || root->right==prev)
+        {
+            printf("%d",root->data);
+            prev=root;
+            root=NULL;
+        }
+        else
+        {
+            stk[++top]=root;
+            root=root->right;
+        }
+    }
+}
+*/
 
 void main()
 {
